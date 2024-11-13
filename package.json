@@ -12,6 +12,7 @@
   },
   "scripts": {
     "dev": "npm run build && node dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "register": "npm run build && node dist/slashRunner.js"
   }
 }
