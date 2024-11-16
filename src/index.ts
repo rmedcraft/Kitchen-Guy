@@ -21,6 +21,14 @@ client.on("interactionCreate", async (interaction) => {
         if (interaction.commandName === "rps") {
             RPS(interaction);
         }
+        if (interaction.commandName === "coinflip") {
+            const random = Math.floor(Math.random() * 2);
+            if (random === 0) {
+                interaction.reply("The coin landed on **Heads**");
+            } else {
+                interaction.reply("The coin landed on **Tails**");
+            }
+        }
     }
 });
 

@@ -26,7 +26,8 @@ export const slashRegister = async (serverID) => {
                     .addUserOption((option) =>
                         option.setName("opponent")
                             .setDescription("The user you're challenging to a RPS game")
-                            .setRequired(true))
+                            .setRequired(true)),
+                new SlashCommandBuilder().setName("coinflip").setDescription("Flip a coin"),
             ],
         });
     } catch (error) {
