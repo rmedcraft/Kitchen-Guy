@@ -1,5 +1,6 @@
 import * as Discord from "discord.js";
 import * as dotenv from "dotenv";
+import { RPS } from "./RPS";
 dotenv.config();
 
 const client = new Discord.Client({
@@ -16,6 +17,9 @@ client.on("interactionCreate", async (interaction) => {
         // check commands  
         if (interaction.commandName === "github") {
             interaction.channel.send("Code for this bot can be found here: https://github.com/rmedcraft/Kitchen-Guy\n\nFind the rest of my projects at https://github.com/rmedcraft");
+        }
+        if (interaction.commandName === "rps") {
+            RPS(interaction);
         }
     }
 });

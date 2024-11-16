@@ -7,3 +7,5 @@ const mouseID = process.env.MOUSE;
 
 slashRegister(medlandID);
 slashRegister(mouseID);
+
+console.log("Registered Commands!");

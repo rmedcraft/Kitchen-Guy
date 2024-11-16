@@ -12,14 +12,21 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 
 
 const botID = "1306344304926785748"; // KITCHEN GUY ID
-const botToken = process.env.token;
+const botToken = process.env.TOKEN;
 
 const rest = new REST().setToken(botToken);
 export const slashRegister = async (serverID) => {
     try {
         await rest.put(Routes.applicationGuildCommands(botID, serverID), {
             body: [
-                new SlashCommandBuilder().setName("github").setDescription("Look at the code for this bot")
+                new SlashCommandBuilder().setName("github").setDescription("Look at the code for this bot"),
+                new SlashCommandBuilder()
+                    .setName("rps")
+                    .setDescription("Play Rock Paper Scissors with someone")
+                    .addUserOption((option) =>
+                        option.setName("opponent")
+                            .setDescription("The user you're challenging to a RPS game")
+                            .setRequired(true))
             ],
         });
     } catch (error) {
