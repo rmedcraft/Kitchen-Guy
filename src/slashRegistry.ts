@@ -31,10 +31,23 @@ export const slashRegister = async (serverID) => {
                 new SlashCommandBuilder()
                     .setName("minecraft")
                     .setDescription("See who's online in a minecraft server")
-                    .addStringOption((option) =>
-                        option.setName("ip")
-                            .setDescription("The server you want to see whos online for")
-                            .setRequired(true)
+                    .addSubcommand((subcommand) => subcommand
+                        .setName("online")
+                        .setDescription("See who's online in a minecraft server")
+                        .addStringOption((option) =>
+                            option.setName("ip")
+                                .setDescription("The server you want to see whos online for")
+                                .setRequired(true)
+                        )
+                    )
+                    .addSubcommand((subcommand) => subcommand
+                        .setName("version")
+                        .setDescription("See what version this minecraft server is on")
+                        .addStringOption((option) =>
+                            option.setName("ip")
+                                .setDescription("The server you want to see the version for")
+                                .setRequired(true)
+                        )
                     )
             ],
         });

@@ -2,7 +2,7 @@ import * as Discord from "discord.js";
 import * as dotenv from "dotenv";
 import { RPS } from "./RPS";
 import { slashRegister } from "./slashRegistry";
-import { minecraftData } from "./minecraft";
+import { online, version } from "./minecraft";
 dotenv.config();
 
 const client = new Discord.Client({
@@ -21,7 +21,7 @@ client.on("guildCreate", (guild) => {
 
 // bot code here!
 client.on("interactionCreate", async (interaction) => {
-    if (interaction.isCommand()) {
+    if (interaction.isCommand() && interaction.isChatInputCommand()) {
         // check commands  
         if (interaction.commandName === "github") {
             interaction.channel.send("Code for this bot can be found here: https://github.com/rmedcraft/Kitchen-Guy\n\nFind the rest of my projects at https://github.com/rmedcraft");
@@ -38,8 +38,14 @@ client.on("interactionCreate", async (interaction) => {
             }
         }
         if (interaction.commandName === "minecraft") {
-            const option = interaction.options.get('ip', true);
-            minecraftData(interaction, option.value as string);
+            const ip = interaction.options.getString("ip");
+            if (interaction.options.getSubcommand() === "online") {
+                online(interaction, ip);
+            }
+
+            if (interaction.options.getSubcommand() === "version") {
+                version(interaction, ip);
+            }
         }
     }
 });
