@@ -33,6 +33,7 @@ export async function RPS(interaction) {
 
     collector.on("collect", async (reaction, user) => {
         if (user === opponent.user) {
+            collector.stop();
             interaction.channel.send(`Game has started!\n\n<@${challenger.id}> and <@${opponent.id}> Check your dms!`);
 
             // Call both sendRPS concurrently and wait for both to resolve
@@ -59,6 +60,12 @@ export async function RPS(interaction) {
             for (const reaction of userReactions.values()) {
                 await reaction.users.remove(user.id);
             }
+        }
+    });
+
+    collector.on("end", (reason) => {
+        if (reason === "time") {
+            interaction.channel.send(`${opponent.displayName} didn't respond in time...`);
         }
     });
 

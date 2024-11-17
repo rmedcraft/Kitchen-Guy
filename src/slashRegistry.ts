@@ -28,6 +28,14 @@ export const slashRegister = async (serverID) => {
                             .setDescription("The user you're challenging to a RPS game")
                             .setRequired(true)),
                 new SlashCommandBuilder().setName("coinflip").setDescription("Flip a coin"),
+                new SlashCommandBuilder()
+                    .setName("minecraft")
+                    .setDescription("See who's online in a minecraft server")
+                    .addStringOption((option) =>
+                        option.setName("ip")
+                            .setDescription("The server you want to see whos online for")
+                            .setRequired(true)
+                    )
             ],
         });
     } catch (error) {
