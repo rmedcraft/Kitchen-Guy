@@ -19,11 +19,11 @@ export async function online(interaction, serverIP: string) {
     const players = data.players;
     let outputMessage = `Online Players in ${serverIP}: \n\n`;
 
-    if (!(typeof data[Symbol.iterator] === "function")) {
+    if (!players.list) {
         interaction.reply(`There are ${players.online} players on ${serverIP}, I can't list all of them!`);
         return;
     }
-    
+
     for (const player of players.list) {
         outputMessage += `- ${player.name}\n`;
     }
