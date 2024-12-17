@@ -24,7 +24,7 @@ client.on("interactionCreate", async (interaction) => {
     if (interaction.isCommand() && interaction.isChatInputCommand()) {
         // check commands  
         if (interaction.commandName === "github") {
-            interaction.channel.send("Code for this bot can be found here: https://github.com/rmedcraft/Kitchen-Guy\n\nFind the rest of my projects at https://github.com/rmedcraft");
+            interaction.reply("Code for this bot can be found here: https://github.com/rmedcraft/Kitchen-Guy\n\nFind the rest of my projects at https://github.com/rmedcraft");
         }
         if (interaction.commandName === "rps") {
             RPS(interaction);
