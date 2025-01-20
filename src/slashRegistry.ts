@@ -48,7 +48,21 @@ export const slashRegister = async (serverID) => {
                                 .setDescription("The server you want to see the version for")
                                 .setRequired(true)
                         )
+                    ),
+                new SlashCommandBuilder().setName("channels").setDescription("channel silly")
+                    .addSubcommand((subcommand) => 
+                        subcommand.setName("changeall")
+                        .setDescription("changes all channels to a single name")
+                        .addStringOption((option) => 
+                            option.setName("name")
+                                .setDescription("The name you want to change all of the channel names to")
+                                .setRequired(true)
+                        )
                     )
+                    .addSubcommand((subcommand) => 
+                        subcommand.setName("revert")
+                        .setDescription("reverts all channels back to the previous name")
+                    ),
             ],
         });
     } catch (error) {
