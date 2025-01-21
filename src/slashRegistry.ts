@@ -50,19 +50,22 @@ export const slashRegister = async (serverID) => {
                         )
                     ),
                 new SlashCommandBuilder().setName("channels").setDescription("channel silly")
-                    .addSubcommand((subcommand) => 
+                    .addSubcommand((subcommand) =>
                         subcommand.setName("changeall")
-                        .setDescription("changes all channels to a single name")
-                        .addStringOption((option) => 
-                            option.setName("name")
-                                .setDescription("The name you want to change all of the channel names to")
-                                .setRequired(true)
-                        )
+                            .setDescription("changes all channels to a single name")
+                            .addStringOption((option) =>
+                                option.setName("name")
+                                    .setDescription("The name you want to change all of the channel names to")
+                                    .setRequired(true)
+                            )
                     )
-                    .addSubcommand((subcommand) => 
+                    .addSubcommand((subcommand) =>
                         subcommand.setName("revert")
-                        .setDescription("reverts all channels back to the previous name")
+                            .setDescription("reverts all channels back to the previous name")
                     ),
+                new SlashCommandBuilder().setName("countchannels").setDescription("count all the channels in your server")
+
+
             ],
         });
     } catch (error) {

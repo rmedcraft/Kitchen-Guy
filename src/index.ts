@@ -7,7 +7,7 @@ import connectToDatabase from "./mongo";
 dotenv.config();
 
 const client = new Discord.Client({
-    intents: ["Guilds", "GuildMessages", "GuildMembers", "GuildMessageReactions", "DirectMessageReactions"]
+    intents: ["Guilds", "GuildMessages", "GuildMembers", "GuildMessageReactions", "DirectMessageReactions", "MessageContent"]
 });
 
 client.on("ready", () => {
@@ -148,6 +148,20 @@ client.on("interactionCreate", async (interaction) => {
 
                 interaction.editReply("All names have been reverted back");
             }
+        }
+        if (interaction.commandName === "countchannels") {
+            let textCt = 0;
+            let voiceCt = 0;
+            interaction.guild.channels.cache.forEach((channel) => {
+                if (channel.isTextBased()) {
+                    textCt++;
+                }
+                if (channel.isVoiceBased()) {
+                    voiceCt++;
+                }
+            });
+
+            interaction.reply(`There are ${textCt} text channels\n\nThere are ${voiceCt} voice channels`);
         }
     }
 });
