@@ -4,6 +4,7 @@ import { RPS } from "./RPS";
 import { slashRegister } from "./slashRegistry";
 import { online, version } from "./minecraft";
 import connectToDatabase from "./mongo";
+import * as fs from "fs";
 dotenv.config();
 
 const client = new Discord.Client({
@@ -53,6 +54,9 @@ client.on("interactionCreate", async (interaction) => {
                 interaction.reply("Only rowan can run this command :3");
                 return;
             }
+
+            await interaction.deferReply();
+
             const db = await connectToDatabase();
             const collection = db.collection("servers");
 
@@ -84,7 +88,6 @@ client.on("interactionCreate", async (interaction) => {
                 //     }
                 // });
 
-
                 // serverInfo exists if the channelData doesnt exist, we want to update the database if the channelData doesnt exist, dont otherwise
                 const serverInfo = await collection.findOne({ serverID: interaction.guild.id, channelData: { $exists: false } });
                 if (serverInfo) {
@@ -105,24 +108,34 @@ client.on("interactionCreate", async (interaction) => {
 
                     objString += " }";
 
-                    let sendString = `In case the data doesnt get added to mongo: \ndb.servers.updateOne({serverID: "${interaction.guild.id}"}, $set: {channelData: ${objString}})`;
+                    let sendString = `db.servers.updateOne({serverID: "${interaction.guild.id}"}, $set: {channelData: ${objString}})`;
 
-                    rowanDM.send(sendString);
-                } else {
-                    console.log('server data not updated');
+                    if (sendString.length < 2000) {
+                        rowanDM.send(sendString);
+                    } else {
+                        fs.writeFileSync("temp.txt", sendString);
+
+                        rowanDM.send({
+                            files: [{
+                                attachment: "temp.txt",
+                                name: "backup.txt"
+                            }]
+                        }).then(() => {
+                            fs.unlinkSync("temp.txt");
+                        });
+                    }
                 }
 
-                interaction.reply("Changed all channel names to " + name);
+                interaction.editReply("Changed all channel names to " + name);
                 console.log(channelData);
             }
             if (interaction.options.getSubcommand() === "revert") {
-                await interaction.deferReply();
                 // get the mongoDB entry, get each channel by its channelID, revert them all back to what they were before, delete the mongoDB entry
                 const serverInfo = await collection.findOne({ serverID: interaction.guild.id });
                 const channelData = serverInfo.channelData;
 
                 if (!channelData) {
-                    interaction.reply("No channel data to revert back to");
+                    interaction.editReply("No channel data to revert back to");
                     return;
                 }
 
