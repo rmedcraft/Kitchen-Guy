@@ -5,6 +5,7 @@ import { slashRegister } from "./slashRegistry";
 import { online, version } from "./minecraft";
 import connectToDatabase from "./mongo";
 import * as fs from "fs";
+import OpenAI from "openai";
 dotenv.config();
 
 const client = new Discord.Client({
@@ -175,6 +176,33 @@ client.on("interactionCreate", async (interaction) => {
             });
 
             interaction.reply(`There are ${textCt} text channels\n\nThere are ${voiceCt} voice channels`);
+        }
+        if (interaction.commandName === "chat") {
+            await interaction.deferReply();
+            const prompt = interaction.options.getString("prompt");
+
+            const openai = new OpenAI({
+                apiKey: process.env.OPENAI_KEY
+            });
+
+            let msg = "";
+            const completion = openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                store: true,
+                messages: [
+                    { "role": "user", "content": prompt }
+                ]
+            });
+
+            completion.then((result) => {
+                const embed: Discord.EmbedBuilder = new Discord.EmbedBuilder()
+                    .setColor(0x00FF00)
+                    .setDescription(`${(interaction.member as Discord.GuildMember).nickname}:\n${prompt}\n\nChatGPT:\n${result.choices[0].message.content}`);
+
+                interaction.editReply({
+                    embeds: [embed]
+                });
+            });
         }
     }
 });

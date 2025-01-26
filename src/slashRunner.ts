@@ -9,7 +9,4 @@ slashRegister(medlandID);
 slashRegister(mouseID);
 // slashRegister(minecraftID);
 
-slashRegister("1330782563173666816");
-
-
 console.log("Registered Commands!");

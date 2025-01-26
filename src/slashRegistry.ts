@@ -26,7 +26,8 @@ export const slashRegister = async (serverID) => {
                     .addUserOption((option) =>
                         option.setName("opponent")
                             .setDescription("The user you're challenging to a RPS game")
-                            .setRequired(true)),
+                            .setRequired(true)
+                    ),
                 new SlashCommandBuilder().setName("coinflip").setDescription("Flip a coin"),
                 new SlashCommandBuilder()
                     .setName("minecraft")
@@ -63,8 +64,15 @@ export const slashRegister = async (serverID) => {
                         subcommand.setName("revert")
                             .setDescription("reverts all channels back to the previous name")
                     ),
-                new SlashCommandBuilder().setName("countchannels").setDescription("count all the channels in your server")
-
+                new SlashCommandBuilder().setName("countchannels").setDescription("count all the channels in your server"),
+                new SlashCommandBuilder()
+                    .setName("chat")
+                    .setDescription("Ask ChatGPT a question")
+                    .addStringOption((option) =>
+                        option.setName("prompt")
+                            .setDescription("The prompt for ChatGPT")
+                            .setRequired(true)
+                    ),
 
             ],
         });
